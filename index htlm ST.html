@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Shaadi — TrustMatch AI · Manisha Agarwal</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --r:#B5261E;--r2:#D93025;--rp:#FDF1F0;--rp2:#F9DEDD;
+  --dk:#16080A;--gy:#6B7280;--lt:#F7F2F2;
+  --wh:#fff;--gn:#1A8C54;--gnp:#EAF7F1;
+  --gd:#B8860B;--gdp:#FDF8E8;--gd2:#D4A017;
+  --ai:#5B35B0;--aip:#F2EEFF;--aip2:#E4D9FF;
+  --mn:#6B0F1A;--cr:#FDF6EE;
+  --bd:#EDE0DC;
+  --sh:0 4px 18px rgba(181,38,30,.09);
+  --shl:0 14px 44px rgba(181,38,30,.16);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:linear-gradient(135deg,#EFE0E4 0%,#E8DEF5 100%);min-height:100vh;display:flex;align-items:center;justify-content:center;}
+
+.shell{width:390px;height:844px;background:var(--wh);border-radius:44px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 32px 80px rgba(0,0,0,.22),0 0 0 10px rgba(0,0,0,.07);position:relative;}
+.screen{display:none;flex-direction:column;height:100%;animation:fu .3s ease;}
+.screen.active{display:flex;}
+@keyframes fu{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* STATUS */
+.sb{background:var(--mn);color:#fff;font-size:11px;font-weight:600;padding:13px 24px 8px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;}
+.sb-brand{font-family:'Playfair Display',serif;font-size:14px;letter-spacing:.8px;}
+
+/* TOP NAV */
+.tnav{background:var(--wh);border-bottom:1px solid var(--bd);padding:11px 16px;display:flex;align-items:center;gap:9px;flex-shrink:0;z-index:5;}
+.tnav h2{font-family:'Playfair Display',serif;font-size:17px;flex:1;}
+.back{width:31px;height:31px;border:1.5px solid var(--bd);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;color:var(--gy);transition:all .2s;flex-shrink:0;}
+.back:hover{background:var(--rp);border-color:var(--r);color:var(--r);}
+.nb{background:var(--r);color:#fff;font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;}
+.aib{background:var(--ai);color:#fff;font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;}
+
+/* BOTTOM NAV */
+.bnav{background:var(--wh);border-top:1px solid var(--bd);display:flex;padding:7px 0 17px;flex-shrink:0;}
+.ni{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:4px;}
+.ni-i{font-size:20px;}
+.ni-l{font-size:9px;font-weight:600;color:var(--gy);letter-spacing:.3px;}
+.ni.active .ni-l{color:var(--r);}
+.ni-dot{width:4px;height:4px;background:var(--r);border-radius:50%;}
+
+.scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.scroll::-webkit-scrollbar{width:3px;}
+.scroll::-webkit-scrollbar-thumb{background:var(--rp2);border-radius:3px;}
+
+/* ═══════════════════════════
+   SCREEN 1 — MY PROFILE
+═══════════════════════════ */
+.ph{background:linear-gradient(150deg,var(--mn) 0%,#3A0A10 100%);padding:22px 20px 46px;position:relative;overflow:hidden;flex-shrink:0;}
+.ph::after{content:'ॐ';position:absolute;right:22px;bottom:14px;font-size:30px;opacity:.1;color:#fff;}
+.ph-row{display:flex;align-items:center;gap:14px;}
+.ph-av{width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#FFD6C8,#FFA896);border:3px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;}
+.ph-inf{color:#fff;}
+.ph-inf h3{font-family:'Playfair Display',serif;font-size:19px;}
+.ph-inf p{font-size:11px;opacity:.78;margin-top:2px;}
+.ph-tag{display:inline-block;background:linear-gradient(90deg,var(--gd),var(--gd2));padding:2px 10px;border-radius:20px;font-size:9px;margin-top:5px;font-weight:700;letter-spacing:.5px;color:#3A1A00;}
+
+.tsc{background:var(--wh);margin:-22px 16px 0;border-radius:20px;padding:17px;box-shadow:var(--shl);position:relative;z-index:4;}
+.tsh{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
+.tsh h4{font-size:11px;font-weight:700;color:var(--gy);text-transform:uppercase;letter-spacing:.6px;}
+.tsl{background:var(--gdp);color:var(--gd);border:1px solid #E8D5A0;font-size:10px;font-weight:700;padding:2px 8px;border-radius:18px;}
+.ts-row{display:flex;align-items:center;gap:16px;}
+.rw{position:relative;width:90px;height:90px;flex-shrink:0;}
+.rw svg{width:100%;height:100%;transform:rotate(-90deg);}
+.rbg{fill:none;stroke:#F2E8E8;stroke-width:7;}
+.rfl{fill:none;stroke:var(--r);stroke-width:7;stroke-linecap:round;stroke-dasharray:251.2;stroke-dashoffset:251.2;transition:stroke-dashoffset 1.4s cubic-bezier(.4,0,.2,1);}
+.rl{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.rn{font-family:'Playfair Display',serif;font-size:25px;color:var(--r);line-height:1;}
+.rm{font-size:10px;color:var(--gy);}
+.pk{flex:1;display:flex;flex-direction:column;gap:6px;}
+.pk-row{display:flex;align-items:flex-start;gap:7px;}
+.pk-i{font-size:13px;margin-top:1px;}
+.pk-t{font-size:11px;color:var(--gy);line-height:1.3;}
+.pk-t strong{color:var(--dk);}
+
+.stt{font-size:11px;font-weight:700;color:var(--gy);text-transform:uppercase;letter-spacing:.6px;padding:18px 20px 8px;}
+
+/* Deal Breakers */
+.dbc{margin:0 16px 14px;background:var(--cr);border:1.5px solid #E8D8C8;border-radius:16px;padding:14px 16px;}
+.dbh{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.dbh h4{font-size:12px;font-weight:700;color:var(--mn);display:flex;align-items:center;gap:5px;}
+.dbe{font-size:10px;color:var(--r);font-weight:600;cursor:pointer;text-decoration:underline;}
+.dbtags{display:flex;flex-wrap:wrap;gap:5px;}
+.dbt{padding:3px 10px;border-radius:9px;font-size:10px;font-weight:600;}
+.must{background:#FEF3C7;color:#92400E;border:1px solid #FDE68A;}
+.never{background:#FEE2E2;color:#991B1B;border:1px solid #FCA5A5;}
+.pref{background:var(--gnp);color:var(--gn);border:1px solid #A7F3D0;}
+
+/* Verification */
+.vsteps{padding:0 16px 16px;display:flex;flex-direction:column;gap:8px;}
+.vstep{border:1.5px solid var(--bd);border-radius:13px;padding:11px 13px;display:flex;align-items:center;gap:11px;background:var(--wh);cursor:pointer;transition:all .22s;}
+.vstep:hover{box-shadow:var(--sh);transform:translateY(-1px);}
+.vstep.done{border-color:var(--gn);background:var(--gnp);}
+.vstep.act{border-color:var(--r);background:var(--rp);}
+.vstep.lock{opacity:.5;cursor:default;}
+.vsi{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.vstep.done .vsi{background:#D1FAE5;}
+.vstep.act .vsi{background:var(--rp2);}
+.vstep.lock .vsi{background:#F0F0F0;}
+.vsv{flex:1;}
+.vt{font-size:12px;font-weight:600;color:var(--dk);}
+.vd{font-size:10px;color:var(--gy);margin-top:1px;}
+.vr{font-size:10px;color:var(--r);font-weight:600;margin-top:2px;}
+
+/* ═══════════════════════════
+   SCREEN 2 — SWIPE
+═══════════════════════════ */
+.sw-area{flex:1;position:relative;overflow:hidden;background:linear-gradient(180deg,#FDF1F0 0%,#F0E8E8 100%);}
+.sw-hint{text-align:center;padding:8px 0 3px;font-size:10px;color:var(--gy);font-weight:500;flex-shrink:0;background:var(--wh);border-bottom:1px solid var(--bd);}
+.sw-hint span{margin:0 8px;}
+
+.sc{position:absolute;width:316px;background:var(--wh);border-radius:26px;box-shadow:0 8px 28px rgba(0,0,0,.13);overflow:hidden;cursor:grab;user-select:none;touch-action:none;will-change:transform;}
+.sc:active{cursor:grabbing;}
+.sc.behind{transform:scale(.93) translateY(13px);z-index:1;}
+.sc.behind2{transform:scale(.86) translateY(25px);z-index:0;}
+.sc.top{z-index:3;}
+.lo,.po{position:absolute;top:20px;padding:5px 13px;border-radius:8px;font-size:15px;font-weight:800;opacity:0;transition:opacity .12s;z-index:10;letter-spacing:1px;border:2.5px solid;}
+.lo{left:16px;color:var(--gn);border-color:var(--gn);background:rgba(255,255,255,.92);}
+.po{right:16px;color:var(--r2);border-color:var(--r2);background:rgba(255,255,255,.92);}
+
+.cp{height:190px;display:flex;align-items:center;justify-content:center;font-size:62px;position:relative;}
+.c1{background:linear-gradient(135deg,#FFD4C2,#FFB8A0);}
+.c2{background:linear-gradient(135deg,#FFE4B5,#FFD080);}
+.c3{background:linear-gradient(135deg,#F0C8FF,#DDA8EE);}
+.c4{background:linear-gradient(135deg,#C8E8D4,#A8D8B8);}
+.c5{background:linear-gradient(135deg,#C8DAFF,#A8BCEE);}
+.tsp{position:absolute;top:10px;right:10px;padding:3px 9px;border-radius:16px;font-size:10px;font-weight:700;backdrop-filter:blur(10px);}
+.tsh2{background:rgba(26,140,84,.9);color:#fff;}
+.tsm{background:rgba(184,134,11,.9);color:#fff;}
+.tsl2{background:rgba(149,165,166,.9);color:#fff;}
+.acp{position:absolute;bottom:10px;left:10px;background:rgba(0,0,0,.5);color:#fff;font-size:9px;font-weight:600;padding:3px 8px;border-radius:16px;backdrop-filter:blur(8px);}
+.cop{position:absolute;bottom:10px;right:10px;background:rgba(107,15,26,.82);color:#fff;font-size:9px;font-weight:700;padding:3px 8px;border-radius:16px;}
+
+.cb{padding:12px 14px 13px;}
+.cn{font-family:'Playfair Display',serif;font-size:17px;color:var(--dk);}
+.cm{font-size:11px;color:var(--gy);margin-top:1px;}
+.cvs{display:flex;gap:4px;margin:6px 0 3px;flex-wrap:wrap;}
+.vc{font-size:9px;font-weight:700;padding:2px 7px;border-radius:7px;letter-spacing:.2px;}
+.vm{background:#FEF3C7;color:#92400E;border:1px solid #FDE68A;}
+.ve{background:#DCFCE7;color:#166534;border:1px solid #A7F3D0;}
+.vf{background:var(--rp);color:var(--mn);border:1px solid var(--rp2);}
+.vt2{background:var(--aip);color:var(--ai);border:1px solid var(--aip2);}
+
+.dbw{background:#FEF2F2;border:1.5px solid #FECACA;border-radius:9px;padding:6px 9px;margin-bottom:7px;font-size:10px;color:#991B1B;font-weight:600;display:flex;align-items:center;gap:5px;}
+.wmr{margin:7px 0 8px;}
+.wml{font-size:9px;font-weight:700;color:var(--gy);text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px;}
+.tgs{display:flex;flex-wrap:wrap;gap:3px;}
+.tok{padding:2px 8px;border-radius:7px;font-size:9px;font-weight:600;background:var(--gnp);color:var(--gn);border:1px solid #A7F3D0;}
+.tdb{background:#FEE2E2;color:#991B1B;border:1px solid #FCA5A5;}
+.tpt{background:var(--gdp);color:var(--gd);border:1px solid #E8D5A0;}
+
+.cbtns{display:flex;gap:7px;}
+.bpc{flex:1;padding:8px;border-radius:10px;border:1.5px solid var(--bd);background:var(--wh);font-size:11px;font-weight:600;color:var(--gy);cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;}
+.bpc:hover{border-color:var(--r2);color:var(--r2);}
+.blc{flex:2;padding:8px;border-radius:10px;border:none;background:var(--r);color:#fff;font-size:11px;font-weight:600;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;}
+.blc:hover{background:var(--r2);}
+
+.swbtns{display:flex;justify-content:center;gap:18px;padding:10px 20px 8px;flex-shrink:0;background:var(--wh);border-top:1px solid var(--bd);}
+.swb{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;border:none;transition:all .22s;box-shadow:0 4px 12px rgba(0,0,0,.1);}
+.swp{background:var(--wh);color:var(--r2);border:2px solid var(--rp2);}
+.swp:hover{transform:scale(1.08);}
+.swc{background:var(--ai);color:#fff;}
+.swc:hover{transform:scale(1.08);background:#4A2A9A;}
+.swl{background:var(--r);color:#fff;}
+.swl:hover{transform:scale(1.08);background:var(--r2);}
+
+.emp{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;z-index:-1;}
+.emp p{font-size:12px;color:var(--gy);font-weight:500;}
+
+.snf{position:absolute;top:11px;left:50%;transform:translateX(-50%);background:var(--wh);border:1.5px solid var(--aip2);border-radius:11px;padding:6px 12px;display:flex;align-items:center;gap:6px;box-shadow:0 4px 16px rgba(91,53,176,.18);z-index:20;font-size:10px;color:var(--ai);font-weight:600;white-space:nowrap;animation:ni .35s ease;pointer-events:none;}
+@keyframes ni{from{opacity:0;transform:translateX(-50%) translateY(-8px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+
+/* MATCH HEART ANIMATION */
+.heart-burst{position:fixed;inset:0;z-index:999;pointer-events:none;display:flex;align-items:center;justify-content:center;animation:hburst .7s ease forwards;}
+@keyframes hburst{0%{opacity:1}70%{opacity:1}100%{opacity:0}}
+.heart-big{font-size:100px;animation:hpop .6s cubic-bezier(.17,.67,.35,1.4) forwards;}
+@keyframes hpop{0%{transform:scale(0) rotate(-20deg)}50%{transform:scale(1.3) rotate(5deg)}100%{transform:scale(1) rotate(0)}}
+.heart-particles{position:absolute;inset:0;pointer-events:none;}
+.hp{position:absolute;font-size:24px;animation:hfly 1s ease forwards;}
+@keyframes hfly{0%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:var(--tx) scale(0)}}
+
+/* ═══════════════════════════
+   SCREEN 3 — CHAT
+═══════════════════════════ */
+.chat-bar{padding:10px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--bd);background:var(--wh);flex-shrink:0;}
+.cav{width:42px;height:42px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;position:relative;}
+.online-dot{position:absolute;bottom:2px;right:2px;width:9px;height:9px;background:var(--gn);border-radius:50%;border:2px solid var(--wh);}
+.cinf h4{font-size:13px;font-weight:600;}
+.cinf p{font-size:10px;color:var(--gy);}
+.cacts{margin-left:auto;display:flex;gap:8px;}
+.cact-btn{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer;border:1.5px solid var(--bd);background:var(--wh);transition:all .2s;}
+.cact-btn:hover{background:var(--rp);border-color:var(--r);}
+.cact-btn.call-active{background:var(--gn);border-color:var(--gn);color:#fff;}
+
+/* Calling modal */
+.call-modal{position:absolute;inset:0;background:linear-gradient(160deg,#1A0A14 0%,#3A0A18 100%);z-index:80;display:none;flex-direction:column;align-items:center;justify-content:center;gap:0;}
+.call-modal.open{display:flex;}
+.call-av{width:90px;height:90px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:40px;margin-bottom:16px;border:3px solid rgba(255,255,255,.2);position:relative;}
+.call-ring{position:absolute;inset:-8px;border-radius:50%;border:2px solid rgba(255,255,255,.15);animation:callpulse 2s infinite;}
+.call-ring2{position:absolute;inset:-18px;border-radius:50%;border:2px solid rgba(255,255,255,.08);animation:callpulse 2s infinite .5s;}
+@keyframes callpulse{0%{transform:scale(1);opacity:1}100%{transform:scale(1.3);opacity:0}}
+.call-name{font-family:'Playfair Display',serif;font-size:22px;color:#fff;margin-bottom:6px;}
+.call-status{font-size:12px;color:rgba(255,255,255,.6);margin-bottom:48px;}
+.call-btns{display:flex;gap:32px;}
+.call-end{width:60px;height:60px;border-radius:50%;background:#E74C3C;border:none;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.call-end:hover{background:#C0392B;transform:scale(1.08);}
+.call-mute{width:50px;height:50px;border-radius:50%;background:rgba(255,255,255,.15);border:none;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.call-speaker{width:50px;height:50px;border-radius:50%;background:rgba(255,255,255,.15);border:none;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.call-dur{font-size:13px;color:rgba(255,255,255,.5);margin-top:20px;font-weight:600;letter-spacing:1px;}
+
+/* Nudge */
+.nb2{background:linear-gradient(135deg,var(--aip),var(--aip2));border-bottom:1px solid var(--aip2);padding:8px 13px;display:flex;align-items:flex-start;gap:8px;flex-shrink:0;}
+.nbi{font-size:15px;flex-shrink:0;margin-top:1px;}
+.nbb{flex:1;}
+.nbt{font-size:10px;font-weight:700;color:var(--ai);letter-spacing:.3px;}
+.nbtx{font-size:10px;color:#3D2A6A;line-height:1.4;margin-top:2px;}
+.nbch{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;}
+.nch{background:var(--ai);color:#fff;font-size:9px;font-weight:600;padding:3px 9px;border-radius:16px;cursor:pointer;transition:all .18s;border:none;font-family:'DM Sans',sans-serif;}
+.nch:hover{background:#4A2A9A;}
+
+/* Messages */
+.msgs{flex:1;overflow-y:auto;padding:12px 12px 6px;display:flex;flex-direction:column;gap:9px;}
+.msgs::-webkit-scrollbar{width:3px;}
+.msgs::-webkit-scrollbar-thumb{background:var(--rp2);border-radius:3px;}
+.msg{max-width:75%;display:flex;flex-direction:column;gap:2px;}
+.msg.me{align-self:flex-end;align-items:flex-end;}
+.msg.them{align-self:flex-start;align-items:flex-start;}
+.bub{padding:9px 12px;border-radius:16px;font-size:12px;line-height:1.55;}
+.msg.me .bub{background:var(--r);color:#fff;border-bottom-right-radius:3px;}
+.msg.them .bub{background:#F3EEEE;color:var(--dk);border-bottom-left-radius:3px;}
+.mt{font-size:9px;color:var(--gy);}
+
+/* system message */
+.sysmsg{text-align:center;font-size:10px;color:var(--gy);background:var(--lt);border-radius:10px;padding:5px 12px;margin:4px auto;max-width:80%;}
+
+/* AI suggest */
+.ais{background:var(--aip);border:1.5px solid var(--aip2);border-radius:12px;padding:9px 11px;margin:0 12px 7px;display:flex;align-items:flex-start;gap:7px;flex-shrink:0;}
+.aisi{font-size:14px;flex-shrink:0;}
+.aisb{flex:1;}
+.aist{font-size:9px;font-weight:700;color:var(--ai);letter-spacing:.3px;margin-bottom:4px;}
+.aisc{display:flex;flex-wrap:wrap;gap:4px;}
+.aisc-chip{background:var(--wh);border:1.5px solid var(--aip2);color:var(--ai);font-size:9px;font-weight:600;padding:3px 9px;border-radius:14px;cursor:pointer;transition:all .18s;font-family:'DM Sans',sans-serif;}
+.aisc-chip:hover{background:var(--ai);color:#fff;}
+
+/* Input */
+.cinpr{padding:8px 12px 14px;display:flex;align-items:center;gap:7px;border-top:1px solid var(--bd);background:var(--wh);flex-shrink:0;}
+.cinp{flex:1;border:1.5px solid var(--bd);border-radius:20px;padding:9px 13px;font-size:12px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s;background:#F8F4F4;}
+.cinp:focus{border-color:var(--r);background:var(--wh);}
+.aibtn{width:33px;height:33px;border-radius:50%;background:var(--aip);border:1.5px solid var(--aip2);display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;transition:all .2s;flex-shrink:0;}
+.aibtn:hover{background:var(--ai);}
+.sndbtn{width:33px;height:33px;border-radius:50%;background:var(--r);border:none;display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;transition:all .2s;flex-shrink:0;}
+.sndbtn:hover{background:var(--r2);transform:scale(1.06);}
+
+/* ═══════════════════════════
+   SCREEN 4 — MATCHES LIST
+═══════════════════════════ */
+.match-list{flex:1;overflow-y:auto;padding:12px 14px;display:flex;flex-direction:column;gap:8px;}
+.match-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1.5px solid var(--bd);border-radius:16px;background:var(--wh);cursor:pointer;transition:all .2s;}
+.match-item:hover{box-shadow:var(--sh);transform:translateY(-1px);}
+.match-item.unread{border-color:var(--r);background:var(--rp);}
+.mi-av{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;position:relative;}
+.mi-online{position:absolute;bottom:1px;right:1px;width:10px;height:10px;background:var(--gn);border-radius:50%;border:2px solid var(--wh);}
+.mi-inf{flex:1;}
+.mi-name{font-size:13px;font-weight:600;color:var(--dk);}
+.mi-meta{font-size:10px;color:var(--gy);margin-top:1px;}
+.mi-last{font-size:11px;color:var(--gy);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:160px;}
+.mi-last.unread-txt{color:var(--dk);font-weight:600;}
+.mi-right{display:flex;flex-direction:column;align-items:flex-end;gap:5px;}
+.mi-time{font-size:9px;color:var(--gy);}
+.mi-badge{background:var(--r);color:#fff;font-size:9px;font-weight:700;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+.mi-ts{background:var(--gnp);border:1px solid #A7F3D0;color:var(--gn);font-size:9px;font-weight:700;padding:2px 7px;border-radius:8px;}
+.matched-banner{background:linear-gradient(135deg,#FFE4B5,#FFF0CC);border:1.5px solid #FFD080;border-radius:12px;padding:8px 12px;margin:0 14px 8px;display:flex;align-items:center;gap:8px;font-size:11px;color:#92400E;font-weight:600;}
+
+/* ═══════════════════════════
+   SCREEN 5 — PREMIUM
+═══════════════════════════ */
+.ph2{background:linear-gradient(135deg,var(--mn) 0%,#2A0800 100%);padding:18px 20px 26px;text-align:center;flex-shrink:0;position:relative;overflow:hidden;}
+.ph2::before{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.06) 1px,transparent 1px);background-size:18px 18px;}
+.ph2 h2{font-family:'Playfair Display',serif;font-size:20px;color:#fff;margin-bottom:3px;}
+.ph2 p{font-size:11px;color:rgba(255,255,255,.65);}
+.cr{font-size:28px;margin-bottom:6px;display:block;}
+.ptabs{display:flex;border-bottom:1px solid var(--bd);flex-shrink:0;}
+.ptab{flex:1;padding:9px;font-size:11px;font-weight:600;text-align:center;cursor:pointer;color:var(--gy);border-bottom:2px solid transparent;transition:all .2s;}
+.ptab.active{color:var(--r);border-bottom-color:var(--r);}
+.pscroll{flex:1;overflow-y:auto;padding:12px 13px 18px;display:flex;flex-direction:column;gap:11px;}
+.pscroll::-webkit-scrollbar{width:3px;}
+.pscroll::-webkit-scrollbar-thumb{background:var(--rp2);border-radius:3px;}
+.pcard{border:1.5px solid var(--bd);border-radius:17px;overflow:hidden;background:var(--wh);transition:all .22s;cursor:pointer;position:relative;}
+.pcard:hover{box-shadow:var(--shl);transform:translateY(-2px);}
+.pcard.feat{border-color:var(--gd2);box-shadow:0 0 0 2px rgba(212,160,23,.22);}
+.pch{padding:13px 15px 11px;display:flex;align-items:flex-start;justify-content:space-between;}
+.pname{font-family:'Playfair Display',serif;font-size:15px;color:var(--dk);}
+.ptag{font-size:10px;color:var(--gy);margin-top:1px;}
+.ppw{text-align:right;}
+.ppr{font-family:'Playfair Display',serif;font-size:21px;color:var(--r);}
+.pmo{font-size:9px;color:var(--gy);}
+.psv{background:var(--gdp);color:var(--gd);border:1px solid #E8D5A0;font-size:9px;font-weight:700;padding:2px 6px;border-radius:7px;margin-top:2px;display:inline-block;}
+.pbadge{background:linear-gradient(90deg,var(--gd),var(--gd2));color:#3A1A00;font-size:9px;font-weight:800;padding:3px 9px;border-radius:0 0 11px 0;position:absolute;top:0;right:0;letter-spacing:.4px;}
+.pfeats{padding:0 15px 13px;border-top:1px solid var(--bd);}
+.fr{display:flex;align-items:flex-start;gap:7px;padding:6px 0;border-bottom:1px solid #F5F0EE;font-size:11px;color:var(--gy);}
+.fr:last-child{border-bottom:none;}
+.fc{font-size:13px;flex-shrink:0;margin-top:1px;}
+.ft strong{color:var(--dk);}
+.pcta{margin:0 15px 13px;padding:10px;border-radius:11px;border:none;width:calc(100% - 30px);font-size:12px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .22s;}
+.cr2{background:var(--r);color:#fff;}
+.cr2:hover{background:var(--r2);}
+.cg{background:linear-gradient(90deg,var(--gd),var(--gd2));color:#3A1A00;}
+.cg:hover{filter:brightness(1.05);}
+.co{background:var(--wh);color:var(--r);border:1.5px solid var(--r)!important;}
+.co:hover{background:var(--rp);}
+.cpn{background:var(--gnp);border:1px solid #A7F3D0;border-radius:10px;padding:7px 11px;margin:0 13px 2px;font-size:11px;color:var(--gn);font-weight:600;display:flex;align-items:center;gap:5px;}
+
+/* AI MODAL */
+.aim{position:absolute;inset:0;background:rgba(26,8,8,.5);backdrop-filter:blur(4px);z-index:50;display:none;align-items:flex-end;}
+.aim.open{display:flex;}
+.ais2{background:var(--wh);border-radius:22px 22px 0 0;width:100%;padding:18px;animation:su .3s ease;max-height:78%;}
+@keyframes su{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.amh{width:36px;height:4px;background:var(--bd);border-radius:2px;margin:0 auto 14px;}
+.amt{font-family:'Playfair Display',serif;font-size:17px;margin-bottom:3px;}
+.ams{font-size:11px;color:var(--gy);margin-bottom:12px;}
+.amss{display:flex;flex-direction:column;gap:8px;overflow-y:auto;max-height:265px;}
+.amss::-webkit-scrollbar{width:3px;}
+.amss::-webkit-scrollbar-thumb{background:var(--aip2);border-radius:3px;}
+.amsc{background:var(--aip);border-radius:12px;padding:10px 12px;}
+.amsc-t{font-size:10px;font-weight:700;color:var(--ai);text-transform:uppercase;letter-spacing:.4px;margin-bottom:7px;}
+.amso{display:flex;flex-direction:column;gap:5px;}
+.amso-btn{background:var(--wh);border:1.5px solid var(--aip2);border-radius:9px;padding:8px 11px;font-size:11px;color:var(--dk);cursor:pointer;transition:all .18s;text-align:left;font-family:'DM Sans',sans-serif;line-height:1.4;}
+.amso-btn:hover{border-color:var(--ai);background:var(--aip);}
+.amcl{width:100%;margin-top:10px;padding:10px;border-radius:11px;border:1.5px solid var(--bd);background:var(--wh);font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--gy);}
+
+/* TOAST */
+.toast{position:absolute;bottom:80px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--dk);color:#fff;padding:8px 16px;border-radius:18px;font-size:11px;font-weight:500;opacity:0;transition:all .3s;z-index:300;white-space:nowrap;pointer-events:none;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+.plbl{text-align:center;padding:4px;font-size:9px;color:var(--gy);letter-spacing:.4px;background:var(--lt);border-top:1px solid var(--bd);flex-shrink:0;}
+</style>
+</head>
+<body>
+<div class="shell" id="shell">
+<div class="sb"><span>9:41</span><span class="sb-brand">shaadi</span><span>🔒●●●●</span></div>
+
+<!-- ═══════════════════════════
+     S1 — MY PROFILE
+═══════════════════════════ -->
+<div class="screen active" id="s-dash">
+  <div class="scroll">
+    <div class="ph">
+      <div class="ph-row">
+        <div class="ph-av">👩</div>
+        <div class="ph-inf">
+          <h3>Manisha Agarwal</h3>
+          <p>26 · Bangalore · Product Manager · Agarwal</p>
+          <span class="ph-tag">👑 GOLD PLAN · ACTIVE</span>
+        </div>
+      </div>
+    </div>
+    <div class="tsc">
+      <div class="tsh"><h4>🛡 Trust Score</h4><span class="tsl">✨ 74/100 · GOOD</span></div>
+      <div class="ts-row">
+        <div class="rw">
+          <svg viewBox="0 0 100 100"><circle class="rbg" cx="50" cy="50" r="40"/><circle class="rfl" id="rf" cx="50" cy="50" r="40"/></svg>
+          <div class="rl"><span class="rn">74</span><span class="rm">/100</span></div>
+        </div>
+        <div class="pk">
+          <div class="pk-row"><span class="pk-i">✅</span><div class="pk-t"><strong>Phone + Photo</strong> verified</div></div>
+          <div class="pk-row"><span class="pk-i">✉️</span><div class="pk-t"><strong>Unlimited interests</strong> (Gold plan)</div></div>
+          <div class="pk-row"><span class="pk-i">🪪</span><div class="pk-t">Upload Aadhaar → reach <strong>90+ score</strong></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stt">My Preferences & Deal Breakers</div>
+    <div class="dbc">
+      <div class="dbh"><h4>⚡ Deal Breakers</h4><span class="dbe" onclick="showToast('✏️ Preference editor coming soon!')">Edit</span></div>
+      <div class="dbtags">
+        <span class="dbt must">✅ Marwadi community</span>
+        <span class="dbt must">✅ Vegetarian</span>
+        <span class="dbt must">✅ Hindu</span>
+        <span class="dbt must">✅ Family-oriented</span>
+        <span class="dbt never">❌ Divorced</span>
+        <span class="dbt never">❌ Non-vegetarian</span>
+        <span class="dbt pref">👍 Bangalore / Pune / Mumbai</span>
+        <span class="dbt pref">👍 Engineer / MBA</span>
+        <span class="dbt pref">👍 Business or Corporate family</span>
+        <span class="dbt pref">👍 Joint family values</span>
+      </div>
+    </div>
+
+    <div class="stt">Verification Journey</div>
+    <div class="vsteps">
+      <div class="vstep done"><div class="vsi">📱</div><div class="vsv"><div class="vt">Stage 1 — Phone Verified</div><div class="vd">Phone + email confirmed</div><div class="vr">✓ Browse unlocked</div></div><span>✅</span></div>
+      <div class="vstep done"><div class="vsi">🤳</div><div class="vsv"><div class="vt">Stage 2 — Photo Verified</div><div class="vd">Selfie matched via AI liveness</div><div class="vr">✓ Visibility boosted</div></div><span>✅</span></div>
+      <div class="vstep act" onclick="showToast('🪪 Opening Aadhaar verification...')"><div class="vsi">🪪</div><div class="vsv"><div class="vt">Stage 3 — Identity Verified</div><div class="vd">Upload Aadhaar or PAN</div><div class="vr">🔓 Tap → Trust Score 90+</div></div><span>›</span></div>
+      <div class="vstep lock"><div class="vsi">🎥</div><div class="vsv"><div class="vt">Stage 4 — Video Verified</div><div class="vd">30-sec intro clip, AI-reviewed</div><div class="vr">🔓 Priority placement in search</div></div><span>🔒</span></div>
+    </div>
+  </div>
+  <div class="bnav">
+    <div class="ni active" onclick="go('s-dash')"><span class="ni-i">👩</span><span class="ni-l">Profile</span><div class="ni-dot"></div></div>
+    <div class="ni" onclick="go('s-swipe')"><span class="ni-i">💑</span><span class="ni-l">Discover</span></div>
+    <div class="ni" onclick="go('s-matches')"><span class="ni-i">💬</span><span class="ni-l">Matches</span></div>
+    <div class="ni" onclick="go('s-premium')"><span class="ni-i">👑</span><span class="ni-l">Plans</span></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════
+     S2 — SWIPE DISCOVER
+═══════════════════════════ -->
+<div class="screen" id="s-swipe">
+  <div class="tnav"><h2>Discover</h2><span class="nb" id="swipeCnt">5 new</span></div>
+  <div class="sw-hint"><span>← Pass</span>🤖 Chat<span>Like →</span></div>
+  <div class="sw-area" id="swArea">
+    <div class="emp"><div style="font-size:44px">🎉</div><p>You've seen everyone!</p><p style="font-size:10px">Check back tomorrow</p></div>
+  </div>
+  <div class="swbtns">
+    <button class="swb swp" onclick="swipe('left')" title="Pass">✕</button>
+    <button class="swb swc" onclick="openChatFromSwipe()" title="AI Chat">🤖</button>
+    <button class="swb swl" onclick="swipe('right')" title="Like">♥</button>
+  </div>
+  <div class="bnav">
+    <div class="ni" onclick="go('s-dash')"><span class="ni-i">👩</span><span class="ni-l">Profile</span></div>
+    <div class="ni active" onclick="go('s-swipe')"><span class="ni-i">💑</span><span class="ni-l">Discover</span><div class="ni-dot"></div></div>
+    <div class="ni" onclick="go('s-matches')"><span class="ni-i">💬</span><span class="ni-l">Matches</span></div>
+    <div class="ni" onclick="go('s-premium')"><span class="ni-i">👑</span><span class="ni-l">Plans</span></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════
+     S3 — CHAT SCREEN
+═══════════════════════════ -->
+<div class="screen" id="s-chat">
+  <div class="tnav">
+    <div class="back" onclick="go('s-matches')">‹</div>
+    <h2 id="cName">Rohan Somani</h2>
+    <span class="aib">✨ AI</span>
+  </div>
+  <div class="chat-bar">
+    <div class="cav" id="cAvEl" style="background:linear-gradient(135deg,#FFD4C2,#FFB8A0)">
+      <span id="cEmoji">👨‍💻</span>
+      <div class="online-dot"></div>
+    </div>
+    <div class="cinf"><h4 id="cNameB">Rohan Somani</h4><p id="cMetaB">28 · Bangalore · SDE-2 · Somani</p></div>
+    <div class="cacts">
+      <div class="cact-btn" onclick="openCall()" title="Voice Call">📞</div>
+      <div class="cact-btn" onclick="openCall()" title="Video Call">🎥</div>
+    </div>
+  </div>
+  <div class="nb2">
+    <span class="nbi">✨</span>
+    <div class="nbb">
+      <div class="nbt">AI SMART NUDGE</div>
+      <div class="nbtx" id="nTxt">Rohan is a Somani from Bangalore — he's an engineer, outdoorsy, and into startups. You're both in Bangalore! Ask about his favourite weekend spots or his startup ambitions.</div>
+      <div class="nbch" id="nChips">
+        <button class="nch" onclick="pf('What do you do for fun in Bangalore? Any favourite spots? 😊')">Weekend in Blr 🍃</button>
+        <button class="nch" onclick="pf('Are you more of a startup person or a big-tech person? 🚀')">Startup vs BigTech 🚀</button>
+        <button class="nch" onclick="pf('Do you still follow Marwadi traditions even in Bangalore? 🙏')">Culture & traditions 🙏</button>
+      </div>
+    </div>
+  </div>
+  <div class="msgs" id="cMsgs">
+    <div class="sysmsg">💑 You both matched! Start a conversation</div>
+    <div class="msg them"><div class="bub">Hey Manisha! Saw your profile — you're in product at a Bangalore startup? That's so cool, which one? 😊</div><span class="mt">2:30 PM</span></div>
+    <div class="msg me"><div class="bub">Hey Rohan! Yeah, I'm at a fintech startup — been there 2 years now. I see you're at Amazon? How's that?</div><span class="mt">2:32 PM</span></div>
+    <div class="msg them"><div class="bub">Amazon's great but honestly I've been thinking about jumping to a startup. The scale problem is exciting but I miss moving fast 😄</div><span class="mt">2:33 PM</span></div>
+  </div>
+  <div class="ais" id="aiSug">
+    <span class="aisi">🤖</span>
+    <div class="aisb">
+      <div class="aist">✨ AI SUGGESTS — Tap to use</div>
+      <div class="aisc" id="aiChips">
+        <button class="aisc-chip" onclick="pf('Ha! The startup energy is so different. What kind of role would you want to jump into? 🚀')">Ask about his startup plans 🚀</button>
+        <button class="aisc-chip" onclick="pf('Moving fast is addictive once you experience it! Have you worked at any startups before?')">Bond over startup life 💡</button>
+        <button class="aisc-chip" onclick="pf('I totally get that! I chose startup over FAANG exactly for that reason 😄')">Share your reason 😄</button>
+      </div>
+    </div>
+  </div>
+  <div class="cinpr">
+    <button class="aibtn" onclick="openAIModal()">✨</button>
+    <input class="cinp" id="cInp" placeholder="Message Rohan..." onkeydown="if(event.key==='Enter')sendMsg()"/>
+    <button class="sndbtn" onclick="sendMsg()">➤</button>
+  </div>
+  <div class="bnav">
+    <div class="ni" onclick="go('s-dash')"><span class="ni-i">👩</span><span class="ni-l">Profile</span></div>
+    <div class="ni" onclick="go('s-swipe')"><span class="ni-i">💑</span><span class="ni-l">Discover</span></div>
+    <div class="ni active" onclick="go('s-matches')"><span class="ni-i">💬</span><span class="ni-l">Matches</span><div class="ni-dot"></div></div>
+    <div class="ni" onclick="go('s-premium')"><span class="ni-i">👑</span><span class="ni-l">Plans</span></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════
+     S4 — MATCHES LIST
+═══════════════════════════ -->
+<div class="screen" id="s-matches">
+  <div class="tnav"><h2>Your Matches</h2><span class="nb">4 new</span></div>
+  <div class="matched-banner">🎉 New match with Arjun Mittal! Say hello →</div>
+  <div class="match-list">
+    <div class="match-item unread" onclick="loadChat(0);go('s-chat')">
+      <div class="mi-av" style="background:linear-gradient(135deg,#FFD4C2,#FFB8A0)">👨‍💻<div class="mi-online"></div></div>
+      <div class="mi-inf">
+        <div class="mi-name">Rohan Somani</div>
+        <div class="mi-meta">28 · Bangalore · SDE-2 · Amazon</div>
+        <div class="mi-last unread-txt">...thinking about jumping to a startup 😄</div>
+      </div>
+      <div class="mi-right"><div class="mi-time">2:33 PM</div><div class="mi-badge">1</div><div class="mi-ts">🛡 92</div></div>
+    </div>
+    <div class="match-item" onclick="loadChat(1);go('s-chat')">
+      <div class="mi-av" style="background:linear-gradient(135deg,#FFE4B5,#FFD080)">🧑‍💼</div>
+      <div class="mi-inf">
+        <div class="mi-name">Arjun Mittal</div>
+        <div class="mi-meta">30 · Mumbai · VP Finance · Mittal</div>
+        <div class="mi-last">New match! 💑</div>
+      </div>
+      <div class="mi-right"><div class="mi-time">1:10 PM</div><div class="mi-ts">🛡 88</div></div>
+    </div>
+    <div class="match-item" onclick="loadChat(2);go('s-chat')">
+      <div class="mi-av" style="background:linear-gradient(135deg,#C8E8D4,#A8D8B8)">👨‍🔬</div>
+      <div class="mi-inf">
+        <div class="mi-name">Varun Khandelwal</div>
+        <div class="mi-meta">29 · Pune · ML Engineer · Khandelwal</div>
+        <div class="mi-last">Sounds amazing! We should catch up 😊</div>
+      </div>
+      <div class="mi-right"><div class="mi-time">Yesterday</div><div class="mi-ts">🛡 79</div></div>
+    </div>
+    <div class="match-item" onclick="loadChat(3);go('s-chat')">
+      <div class="mi-av" style="background:linear-gradient(135deg,#C8DAFF,#A8BCEE)">🧑‍💻</div>
+      <div class="mi-inf">
+        <div class="mi-name">Harsh Jhunjhunwala</div>
+        <div class="mi-meta">29 · Bangalore · Product · Jhunjhunwala</div>
+        <div class="mi-last">Ha, product PMs are everywhere in Blr 😄</div>
+      </div>
+      <div class="mi-right"><div class="mi-time">Mon</div><div class="mi-ts">🛡 85</div></div>
+    </div>
+  </div>
+  <div class="bnav">
+    <div class="ni" onclick="go('s-dash')"><span class="ni-i">👩</span><span class="ni-l">Profile</span></div>
+    <div class="ni" onclick="go('s-swipe')"><span class="ni-i">💑</span><span class="ni-l">Discover</span></div>
+    <div class="ni active"><span class="ni-i">💬</span><span class="ni-l">Matches</span><div class="ni-dot"></div></div>
+    <div class="ni" onclick="go('s-premium')"><span class="ni-i">👑</span><span class="ni-l">Plans</span></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════
+     S5 — PREMIUM
+═══════════════════════════ -->
+<div class="screen" id="s-premium">
+  <div class="ph2"><span class="cr">👑</span><h2>Premium Plans</h2><p>Find your soulmate faster</p></div>
+  <div class="ptabs">
+    <div class="ptab active" onclick="switchTab(this,'monthly')">Monthly</div>
+    <div class="ptab" onclick="switchTab(this,'quarterly')">3 Months</div>
+    <div class="ptab" onclick="switchTab(this,'biannual')">6 Months</div>
+  </div>
+  <div class="pscroll" id="pScroll"></div>
+  <div class="bnav">
+    <div class="ni" onclick="go('s-dash')"><span class="ni-i">👩</span><span class="ni-l">Profile</span></div>
+    <div class="ni" onclick="go('s-swipe')"><span class="ni-i">💑</span><span class="ni-l">Discover</span></div>
+    <div class="ni" onclick="go('s-matches')"><span class="ni-i">💬</span><span class="ni-l">Matches</span></div>
+    <div class="ni active"><span class="ni-i">👑</span><span class="ni-l">Plans</span><div class="ni-dot"></div></div>
+  </div>
+</div>
+
+<!-- CALLING MODAL -->
+<div class="call-modal" id="callModal">
+  <div class="call-av" id="callAv" style="background:linear-gradient(135deg,#FFD4C2,#FFB8A0)">
+    <span id="callEmoji">👨‍💻</span>
+    <div class="call-ring"></div><div class="call-ring2"></div>
+  </div>
+  <div class="call-name" id="callName">Rohan Somani</div>
+  <div class="call-status" id="callSt">Calling...</div>
+  <div class="call-dur" id="callDur" style="display:none">00:00</div>
+  <div class="call-btns">
+    <button class="call-mute">🔇</button>
+    <button class="call-end" onclick="endCall()">📵</button>
+    <button class="call-speaker">🔊</button>
+  </div>
+</div>
+
+<!-- AI MODAL -->
+<div class="aim" id="aiMod" onclick="if(event.target===this)closeAIM()">
+  <div class="ais2">
+    <div class="amh"></div>
+    <div class="amt">✨ AI Writing Assistant</div>
+    <div class="ams">Smart replies for <span id="aiModName">Rohan</span></div>
+    <div class="amss" id="amssContent"></div>
+    <button class="amcl" onclick="closeAIM()">Close</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<div class="plbl">TRUSTMATCH AI · MANISHA AGARWAL · AIRTRIBE PRODUCT CHALLENGE 2026</div>
+</div>
+
+<script>
+// ─── DATA ───────────────────────────────────────────────
+const profiles = [
+  {
+    name:'Rohan Somani', meta:'28 · Bangalore · SDE-2 · Somani', emoji:'👨‍💻',
+    cp:'c1', ts:92, tsc:'tsh2', active:'Online now', community:'Somani · Agarwal',
+    vals:['Marwadi','Vegetarian','Corporate'],
+    tags:['🏙 Bangalore ✓','🥗 Veg ✓','🕌 Hindu ✓','💼 Tech ✓','👨‍👩‍👦 Family values ✓'],
+    dbWarn:false,
+    nudge:"Rohan is a Somani engineer at Amazon in Bangalore — perfectly aligned. You're both in the same city! Ask about his weekend spots or startup ambitions.",
+    nChips:["Weekend in Blr 🍃","Startup vs BigTech 🚀","Culture & traditions 🙏"],
+    nPf:["What do you do for fun in Bangalore? Any favourite spots? 😊","Are you more of a startup person or big-tech? 🚀","Do you still follow Marwadi traditions even in Bangalore? 🙏"],
+    avBg:"linear-gradient(135deg,#FFD4C2,#FFB8A0)", chatMeta:"28 · Bangalore · SDE-2 · Amazon",
+    aiOpts:[
+      {t:"💻 Tech & Career",opts:["Ha! The startup energy is so different. What kind of role are you eyeing? 🚀","I chose startup over FAANG and honestly love the pace — what's holding you back?","Building something from scratch is the best feeling. What problem would you want to solve?"]},
+      {t:"🏙 Bangalore Life",opts:["Bangalore weekends are the best — Cubbon Park or Indiranagar? 😄","Have you been to any good Marwadi restaurants in Koramangala? 😋","I've been here 2 years and still discovering new places — any recommendations?"]},
+      {t:"🙏 Values & Family",opts:["Being Marwadi in Bangalore is interesting — do you still connect with the community here?","Family is super important to me too. Are your parents based in Jaipur or did they move?","I appreciate how you balance modern career with values — rare to find that honestly!"]}
+    ]
+  },
+  {
+    name:'Arjun Mittal', meta:'30 · Mumbai · VP Finance · Mittal', emoji:'🧑‍💼',
+    cp:'c2', ts:88, tsc:'tsh2', active:'Active 2 hrs ago', community:'Mittal · Marwadi',
+    vals:['Marwadi','Vegetarian','Business Family'],
+    tags:['📍 Mumbai ✓','🥗 Veg ✓','🕌 Hindu ✓','💼 Finance ✓','👨‍👩‍👦 Business family ✓'],
+    dbWarn:false,
+    nudge:"Arjun Mittal is in finance in Mumbai — great career alignment with your MBA background. Ask about the Mumbai startup scene or his family textile business!",
+    nChips:["Mumbai finance world 📈","Family business 🏢","Weekend plans ☕"],
+    nPf:["How's the Mumbai finance scene right now? I hear it's booming 📈","I know Mittal families often have incredible business legacy — what's yours like? 🏢","Do you manage to disconnect on weekends or is finance always on? ☕"],
+    avBg:"linear-gradient(135deg,#FFE4B5,#FFD080)", chatMeta:"30 · Mumbai · VP Finance · Mittal",
+    aiOpts:[
+      {t:"📈 Finance & Career",opts:["VP at 30 is impressive! Did you always know finance was your path?","Mumbai finance is such a different world from Bangalore tech — do you ever think of switching cities?","Do you find yourself working all weekend or do you have a firm off switch? 😄"]},
+      {t:"🏢 Family & Business",opts:["Mittal family businesses are legendary — what sector are you in?","Do you see yourself eventually joining the family business or staying corporate?","I love that you've built your own career while keeping family roots strong 💪"]},
+      {t:"☕ Getting to Know You",opts:["What does a perfect weekend look like for you in Mumbai?","Are you someone who loves the Mumbai chaos or secretly wants to move somewhere quieter? 😄","I'm based in Bangalore — have you ever thought about moving here?"]}
+    ]
+  },
+  {
+    name:'Varun Khandelwal', meta:'29 · Pune · ML Engineer · Khandelwal', emoji:'👨‍🔬',
+    cp:'c4', ts:79, tsc:'tsm', active:'Active 1 day ago', community:'Khandelwal · Marwadi',
+    vals:['Marwadi','Vegetarian','Tech'],
+    tags:['📍 Pune ✓','🥗 Veg ✓','🕌 Hindu ✓','💡 ML/AI ✓'],
+    dbWarn:false,
+    nudge:"Varun is a Khandelwal ML engineer in Pune — very aligned on values. Ask about his AI work or whether he's open to Bangalore. You both love tech!",
+    nChips:["AI & ML work 🤖","Pune vs Bangalore 🏙","Hobbies & interests 🎸"],
+    nPf:["What are you building in ML right now? I'd love to hear about your work! 🤖","Pune seems quieter than Bangalore — do you prefer it or would you consider moving? 🏙","What do you do outside of work? 🎸"],
+    avBg:"linear-gradient(135deg,#C8E8D4,#A8D8B8)", chatMeta:"29 · Pune · ML Engineer · Khandelwal",
+    aiOpts:[
+      {t:"🤖 Tech Talk",opts:["ML engineering is so exciting right now — are you working on GenAI stuff or more classical ML?","I'm in product so I think a lot about user needs — what problem are you solving with ML?","Any interesting side projects you're working on? 😊"]},
+      {t:"🏙 City Life",opts:["How do you find Pune? I'm in Bangalore and love it but Pune has such a good vibe too","Would you be open to relocating if the right opportunity came?","Do you come to Bangalore often? We should grab coffee if you do! ☕"]},
+      {t:"🙏 Life & Values",opts:["Do you still connect with the Marwadi community in Pune?","What does family mean to you — are you close with yours?","I love how grounded you seem — what keeps you that way? 🙏"]}
+    ]
+  },
+  {
+    name:'Harsh Jhunjhunwala', meta:'29 · Bangalore · PM · Jhunjhunwala', emoji:'🧑‍💻',
+    cp:'c5', ts:85, tsc:'tsh2', active:'Active 3 days ago', community:'Jhunjhunwala · Marwadi',
+    vals:['Marwadi','Vegetarian','Modern Family'],
+    tags:['🏙 Bangalore ✓','🥗 Veg ✓','🕌 Hindu ✓','💼 Product ✓','👨‍👩‍👦 Family values ✓'],
+    dbWarn:false,
+    nudge:"Harsh is a Jhunjhunwala PM in Bangalore — you literally have the same job! Great conversation starter. Ask about his product domain or favourite PM frameworks.",
+    nChips:["PM life 📋","Same city 🏙","Marwadi in Blr 🙏"],
+    nPf:["Two PMs in Bangalore — we'd probably just talk product all day 😄 What's your domain?","Any good PM communities or events in Bangalore you know of? 📋","How do you balance the grind of product with your personal life? 🙏"],
+    avBg:"linear-gradient(135deg,#C8DAFF,#A8BCEE)", chatMeta:"29 · Bangalore · Product Manager · Jhunjhunwala",
+    aiOpts:[
+      {t:"📋 Product & Career",opts:["Two PMs in Bangalore — we'd literally talk work all day 😄 What domain are you in?","What's your favourite product to obsess over right now?","Do you believe in data-first PM or intuition-first? I have strong opinions 😄"]},
+      {t:"🏙 Bangalore Together",opts:["Since we're both in Bangalore, have you been to any good Marwadi sabhas or community events?","Best coffee shop for deep work in Bangalore — Bengaluru café culture is unreal!","What's your go-to for switching off after a crazy sprint? 🌿"]},
+      {t:"😄 Fun & Light",opts:["PM confession: I still build personal Notion dashboards for grocery shopping 😅","What's your weirdest product hot take?","Honest question — do you ever give unsolicited UX feedback at restaurants? 😂"]}
+    ]
+  },
+  {
+    name:'Rahul Sharma', meta:'30 · Delhi · Lawyer · Non-veg', emoji:'👨‍⚖️',
+    cp:'c3', ts:41, tsc:'tsl2', active:'12 days ago', community:'Sharma · North India',
+    vals:['Hindu','Non-veg'],
+    tags:['📍 Delhi (outside pref)','🍗 Non-veg ❌ deal breaker','🏙 Not Blr/Pune/Mumbai'],
+    dbWarn:true, dbWarnMsg:"Non-vegetarian + outside city preference — AI flagged 2 deal breaker mismatches.",
+    nudge:"Rahul has 2 deal-breaker mismatches with your profile — non-vegetarian and based in Delhi. The AI recommends passing on this profile.",
+    nChips:["Why flagged ⚠️","Pass recommended 👈"],
+    nPf:["This profile has deal-breaker mismatches ⚠️","Passing is recommended 👈"],
+    avBg:"linear-gradient(135deg,#F0C8FF,#DDA8EE)", chatMeta:"30 · Delhi · Lawyer",
+    aiOpts:[{t:"⚠️ AI Recommendation",opts:["This profile doesn't match your deal-breaker preferences. Consider passing."]}]
+  }
+];
+
+// ─── PLAN DATA ───────────────────────────────────────────
+const plans = {
+  monthly:[
+    {n:'Silver',tag:'Get started',pr:'₹1,499',mo:'/mo',sv:'',cur:false,feat:false,
+     f:[['✉️','Unlimited interests','Browse and send to any profile'],['🔍','Basic filters','Age, city, community'],['📋','5 contact views','View 5 phone numbers/month'],['🛡','Trust Score','See verified badges']]},
+    {n:'Gold',tag:'Most popular',pr:'₹2,999',mo:'/mo',sv:'',cur:true,feat:true,
+     f:[['💬','Direct messaging','Chat with your matches directly'],['📞','Voice & video calls','Schedule calls through the app'],['🔍','Advanced filters','Community, gotra, family type, income'],['🤖','AI Smart Nudges','Personalised conversation starters'],['🚨','Deal-breaker alerts','AI flags preference mismatches'],['📋','50 contact views','50 phone numbers/month']]},
+    {n:'Platinum',tag:'Serious seekers',pr:'₹4,999',mo:'/mo',sv:'',cur:false,feat:false,
+     f:[['💬','Priority messaging','Shown at top of inbox'],['📞','Unlimited calls','Unlimited voice + video calls'],['🤖','Full AI Suite','Chat AI + profile AI + matchmaker'],['👩‍💼','Relationship Manager','Dedicated RM for your profile'],['📊','Match Analytics','Who viewed, liked, shortlisted you'],['📋','Unlimited contacts','No limits']]},
+    {n:'VIP Select',tag:'White-glove matchmaking',pr:'₹14,999',mo:'/mo',sv:'',cur:false,feat:false,
+     f:[['💎','Curated matches','Hand-picked by expert matchmakers'],['🏆','Top placement','#1 in all searches'],['📞','RM-arranged calls','Senior RM manages your calls'],['🔐','Privacy guard','Hidden from non-premium'],['🎯','Compatibility report','Deep AI analysis per match']]}
+  ],
+  quarterly:[
+    {n:'Silver',tag:'Get started',pr:'₹3,599',mo:'/3 mo',sv:'Save 20%',cur:false,feat:false,
+     f:[['✉️','Unlimited interests','Any profile'],['🔍','Basic filters','Age, city, community'],['📋','15 contacts/mo','15 phone numbers monthly'],['🛡','Trust Score','Verified badges']]},
+    {n:'Gold',tag:'Most popular',pr:'₹6,999',mo:'/3 mo',sv:'Save 22%',cur:false,feat:true,
+     f:[['💬','Direct messaging','Chat + calls with matches'],['📞','Voice & video calls','In-app calling'],['🔍','Advanced filters','Community, income, family type'],['🤖','AI Full Suite','Nudges + deal-breaker alerts'],['📋','75 contacts/mo','75 phone numbers monthly']]},
+    {n:'Platinum',tag:'Best value',pr:'₹11,999',mo:'/3 mo',sv:'Save 20%',cur:false,feat:false,
+     f:[['💬','Priority messaging','Top of every inbox'],['📞','Unlimited calls','No limits'],['🤖','Full AI Suite','All AI features'],['👩‍💼','Dedicated RM','Personal matchmaking support'],['📋','Unlimited contacts','']]},
+    {n:'VIP Select',tag:'White-glove',pr:'₹34,999',mo:'/3 mo',sv:'Save 22%',cur:false,feat:false,
+     f:[['💎','Curated matches','Human + AI matchmaking'],['🏆','Top placement','Always #1'],['🎯','Compatibility reports','Every match analysed']]}
+  ],
+  biannual:[
+    {n:'Silver',tag:'Get started',pr:'₹5,999',mo:'/6 mo',sv:'Save 33%',cur:false,feat:false,
+     f:[['✉️','Unlimited interests','Any profile'],['🔍','Basic filters','Standard'],['📋','20 contacts/mo','Monthly'],['🛡','Trust Score','Badges']]},
+    {n:'Gold',tag:'Best value',pr:'₹11,999',mo:'/6 mo',sv:'Save 33%',cur:false,feat:true,
+     f:[['💬','Messaging + Calls','Chat and call matches'],['🔍','Advanced filters','Full filter suite'],['🤖','AI Full Suite','All AI features'],['📋','100 contacts/mo','']]},
+    {n:'Platinum',tag:'Most complete',pr:'₹21,999',mo:'/6 mo',sv:'Save 27%',cur:false,feat:false,
+     f:[['💬','Priority messaging','Top visibility'],['📞','Unlimited calls',''],['🤖','Full AI Suite',''],['👩‍💼','RM assigned','Personal manager'],['📋','Unlimited contacts','']]},
+    {n:'VIP Select',tag:'White-glove',pr:'₹59,999',mo:'/6 mo',sv:'Save 33%',cur:false,feat:false,
+     f:[['💎','Expert matchmaking','Human + AI'],['🏆','Top placement','#1 always'],['🎯','Compatibility reports','All matches']]}
+  ]
+};
+
+// ─── STATE ──────────────────────────────────────────────
+let cIdx = 0, isDrag=false, sX=0, sY=0, cX=0, topCard=null;
+let callTimer=null, callSec=0, callActive=false;
+let currentChat = 0;
+
+// ─── NAVIGATION ─────────────────────────────────────────
+function go(id) {
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if(id==='s-swipe') renderCards();
+  if(id==='s-premium') renderPlans('monthly');
+}
+
+// ─── TOAST ──────────────────────────────────────────────
+function showToast(msg,dur=2400){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),dur);
+}
+
+// ─── TRUST RING ─────────────────────────────────────────
+window.addEventListener('load',()=>{
+  setTimeout(()=>{
+    const r=document.getElementById('rf');
+    if(r) r.style.strokeDashoffset=251.2*(1-0.74);
+  },500);
+  renderCards();
+  renderPlans('monthly');
+});
+
+// ─── MATCH HEART BURST ──────────────────────────────────
+function heartBurst(){
+  const b=document.createElement('div');
+  b.className='heart-burst';
+  b.innerHTML=`<div class="heart-big">💑</div><div class="heart-particles">${
+    Array.from({length:10},(_,i)=>{
+      const angle=(i/10)*360;
+      const dist=80+Math.random()*60;
+      const tx=`translate(${Math.cos(angle*Math.PI/180)*dist}px,${Math.sin(angle*Math.PI/180)*dist}px)`;
+      const emojis=['❤️','💕','✨','🌸','💗'];
+      return `<span class="hp" style="top:50%;left:50%;--tx:${tx};animation-delay:${Math.random()*.3}s">${emojis[i%5]}</span>`;
+    }).join('')
+  }</div>`;
+  document.getElementById('shell').appendChild(b);
+  setTimeout(()=>b.remove(),900);
+}
+
+// ─── SWIPE CARDS ────────────────────────────────────────
+function renderCards(){
+  const area=document.getElementById('swArea');
+  area.querySelectorAll('.sc,.snf').forEach(c=>c.remove());
+  const rem=profiles.slice(cIdx);
+  document.getElementById('swipeCnt').textContent=`${rem.length} new`;
+  if(!rem.length) return;
+  rem.slice().reverse().forEach((p,ri)=>{
+    const realIdx=rem.length-1-ri;
+    area.appendChild(buildCard(p,realIdx===0));
+  });
+  topCard=area.querySelector('.sc.top');
+  if(topCard) attachDrag(topCard);
+  showNF(profiles[cIdx]);
+}
+
+function buildCard(p,isTop){
+  const d=document.createElement('div');
+  const cls=isTop?'top':(profiles.indexOf(p)===cIdx+1?'behind':'behind2');
+  d.className=`sc ${cls}`;
+  d.style.left='50%'; d.style.top='50%';
+  d.style.transform=isTop?'translate(-50%,-50%)':cls==='behind'?'translate(-50%,-50%) scale(.93) translateY(13px)':'translate(-50%,-50%) scale(.86) translateY(25px)';
+  if(isTop) d.style.transform='translate(-50%,-50%)';
+  const vchips=p.vals.map(v=>{
+    const c=v==='Marwadi'?'vm':v==='Vegetarian'?'ve':v.includes('Family')?'vf':'vt2';
+    return `<span class="vc ${c}">${v}</span>`;
+  }).join('');
+  const thml=p.tags.map(t=>{
+    const c=t.includes('❌')?'tdb':t.includes('outside')||t.includes('Not ')?'tpt':'tok';
+    return `<span class="${c}">${t}</span>`;
+  }).join('');
+  const dbHtml=p.dbWarn?`<div class="dbw">⚠️ ${p.dbWarnMsg}</div>`:'';
+  d.innerHTML=`
+    <div class="lo">LIKE ♥</div><div class="po">PASS ✕</div>
+    <div class="cp ${p.cp}">${p.emoji}
+      <div class="tsp ${p.tsc}">🛡 ${p.ts}</div>
+      <div class="acp">${p.active}</div>
+      <div class="cop">${p.community}</div>
+    </div>
+    <div class="cb">
+      <div class="cn">${p.name}</div>
+      <div class="cm">${p.meta}</div>
+      <div class="cvs">${vchips}</div>
+      ${dbHtml}
+      <div class="wmr"><div class="wml">TrustMatch AI — Why matched</div><div class="tgs">${thml}</div></div>
+      <div class="cbtns">
+        <button class="bpc" onclick="swipe('left')">✕ Pass</button>
+        <button class="blc" onclick="swipe('right')">♥ Like</button>
+      </div>
+    </div>`;
+  // Fix stacked card transforms
+  if(!isTop){
+    d.style.transition='transform .3s ease';
+    if(cls==='behind') d.style.transform='translate(-50%,-50%) scale(.93) translateY(13px)';
+    else d.style.transform='translate(-50%,-50%) scale(.86) translateY(25px)';
+  }
+  return d;
+}
+
+function showNF(p){
+  if(!p) return;
+  const area=document.getElementById('swArea');
+  area.querySelectorAll('.snf').forEach(e=>e.remove());
+  const n=document.createElement('div');
+  n.className='snf';
+  n.innerHTML=`✨ <span>${p.name.split(' ')[0]}: ${p.nudge.substring(0,42)}...</span>`;
+  area.appendChild(n);
+  setTimeout(()=>{n.style.opacity='0';n.style.transition='opacity .5s';},3500);
+  setTimeout(()=>n.remove(),4200);
+}
+
+function attachDrag(card){
+  card.addEventListener('mousedown',ds);
+  card.addEventListener('touchstart',ds,{passive:true});
+}
+function ds(e){
+  isDrag=true;
+  const pt=e.touches?e.touches[0]:e;
+  sX=pt.clientX; sY=pt.clientY; cX=0;
+  document.addEventListener('mousemove',dm);
+  document.addEventListener('mouseup',de);
+  document.addEventListener('touchmove',dm,{passive:true});
+  document.addEventListener('touchend',de);
+}
+function dm(e){
+  if(!isDrag||!topCard) return;
+  const pt=e.touches?e.touches[0]:e;
+  cX=pt.clientX-sX;
+  const cY=(pt.clientY-sY)*.25;
+  const rot=cX*.07;
+  topCard.style.transform=`translate(-50%,-50%) translateX(${cX}px) translateY(${cY}px) rotate(${rot}deg)`;
+  topCard.style.transition='none';
+  const lo=topCard.querySelector('.lo'),po=topCard.querySelector('.po');
+  if(lo) lo.style.opacity=cX>0?Math.min(cX/80,1):0;
+  if(po) po.style.opacity=cX<0?Math.min(-cX/80,1):0;
+}
+function de(){
+  isDrag=false;
+  document.removeEventListener('mousemove',dm);
+  document.removeEventListener('mouseup',de);
+  document.removeEventListener('touchmove',dm);
+  document.removeEventListener('touchend',de);
+  if(!topCard) return;
+  if(Math.abs(cX)>88) swipe(cX>0?'right':'left');
+  else{
+    topCard.style.transition='transform .35s cubic-bezier(.4,0,.2,1)';
+    topCard.style.transform='translate(-50%,-50%)';
+    const lo=topCard.querySelector('.lo'),po=topCard.querySelector('.po');
+    if(lo) lo.style.opacity=0;
+    if(po) po.style.opacity=0;
+  }
+}
+
+function swipe(dir){
+  if(!topCard||cIdx>=profiles.length) return;
+  const p=profiles[cIdx];
+  topCard.style.transition='transform .42s cubic-bezier(.4,0,.2,1), opacity .42s';
+  topCard.style.transform=dir==='right'
+    ?'translate(-50%,-50%) translateX(500px) rotate(20deg)'
+    :'translate(-50%,-50%) translateX(-500px) rotate(-20deg)';
+  topCard.style.opacity='0';
+  if(dir==='right'){
+    setTimeout(()=>heartBurst(),100);
+    showToast(`💑 It's a match with ${p.name.split(' ')[0]}!`);
+  } else {
+    showToast(`✕ Passed on ${p.name.split(' ')[0]}`);
+  }
+  setTimeout(()=>{cIdx++;renderCards();},380);
+}
+
+function openChatFromSwipe(){
+  if(cIdx>=profiles.length) return;
+  loadChat(cIdx);
+  go('s-chat');
+}
+
+// ─── CHAT ────────────────────────────────────────────────
+function loadChat(idx){
+  currentChat=idx;
+  const p=profiles[idx]||profiles[0];
+  document.getElementById('cName').textContent=p.name;
+  document.getElementById('cNameB').textContent=p.name;
+  document.getElementById('cMetaB').textContent=p.chatMeta;
+  document.getElementById('cAvEl').style.background=p.avBg;
+  document.getElementById('cEmoji').textContent=p.emoji;
+  document.getElementById('callAv').style.background=p.avBg;
+  document.getElementById('callEmoji').textContent=p.emoji;
+  document.getElementById('callName').textContent=p.name;
+  document.getElementById('nTxt').textContent=p.nudge;
+  document.getElementById('aiModName').textContent=p.name.split(' ')[0];
+  document.getElementById('cInp').placeholder=`Message ${p.name.split(' ')[0]}...`;
+  // nudge chips
+  const nc=document.getElementById('nChips');
+  nc.innerHTML=p.nChips.map((c,i)=>`<button class="nch" onclick="pf('${p.nPf[i].replace(/'/g,"\\'")}'">${c}</button>`).join('');
+  // AI chips
+  refreshAISugg(p);
+  // AI modal
+  buildAIModal(p);
+}
+
+const replyPool=[
+  "Ha, that's such a good point! 😄",
+  "Okay I love that answer 😊",
+  "Totally agree with you on this!",
+  "That's exactly how I feel too!",
+  "Wait, same!! 😂 We think alike",
+  "Okay this is going really well haha 😊",
+  "Tell me more — I'm genuinely curious!",
+  "Love that perspective honestly 🙌",
+  "Haha yes exactly!! Finally someone who gets it",
+  "Okay so now I have a question for you..."
+];
+
+const suggSets=[
+  ["Ask his opinion on remote work 💻","Talk about favourite books 📖","Ask about travel wishlist ✈️"],
+  ["Share a fun fact about yourself 🌟","Ask about his weekend plans 🎸","Talk about food you both love 🍛"],
+  ["Ask what he values most in a partner 💑","Talk about 5-year goals 🚀","Ask about his family 👨‍👩‍👦"],
+  ["Ask about a childhood memory 🌸","Talk about your Jaipur roots 🏰","Ask about a recent book or show 📺"]
+];
+let sIdx=0;
+
+function refreshAISugg(p){
+  const p2=p||profiles[currentChat]||profiles[0];
+  sIdx=(sIdx+1)%suggSets.length;
+  document.getElementById('aiChips').innerHTML=suggSets[sIdx].map(s=>
+    `<button class="aisc-chip" onclick="pf('${s}')">${s}</button>`
+  ).join('');
+}
+
+function buildAIModal(p){
+  const cont=document.getElementById('amssContent');
+  cont.innerHTML=p.aiOpts.map(sec=>`
+    <div class="amsc">
+      <div class="amsc-t">${sec.t}</div>
+      <div class="amso">${sec.opts.map(o=>
+        `<button class="amso-btn" onclick="useAIM('${o.replace(/'/g,"\\'")}')"> ${o}</button>`
+      ).join('')}</div>
+    </div>`).join('');
+}
+
+function sendMsg(){
+  const inp=document.getElementById('cInp');
+  const txt=inp.value.trim(); if(!txt) return;
+  addMsg(txt,'me'); inp.value='';
+  setTimeout(()=>{
+    addMsg(replyPool[Math.floor(Math.random()*replyPool.length)],'them');
+    refreshAISugg();
+  },900+Math.random()*600);
+}
+function addMsg(txt,who){
+  const msgs=document.getElementById('cMsgs');
+  const now=new Date();
+  const t=now.getHours()+':'+String(now.getMinutes()).padStart(2,'0');
+  const d=document.createElement('div');
+  d.className=`msg ${who}`;
+  d.innerHTML=`<div class="bub">${txt}</div><span class="mt">${t}</span>`;
+  msgs.appendChild(d); msgs.scrollTop=msgs.scrollHeight;
+}
+function pf(txt){document.getElementById('cInp').value=txt;document.getElementById('cInp').focus();}
+function openAIModal(){document.getElementById('aiMod').classList.add('open');}
+function closeAIM(){document.getElementById('aiMod').classList.remove('open');}
+function useAIM(txt){document.getElementById('cInp').value=txt;closeAIM();document.getElementById('cInp').focus();}
+
+// ─── CALLING ────────────────────────────────────────────
+function openCall(){
+  const p=profiles[currentChat]||profiles[0];
+  document.getElementById('callSt').textContent='Calling...';
+  document.getElementById('callDur').style.display='none';
+  document.getElementById('callModal').classList.add('open');
+  callSec=0; callActive=false;
+  setTimeout(()=>{
+    document.getElementById('callSt').textContent=`Connected with ${p.name.split(' ')[0]} 🟢`;
+    document.getElementById('callDur').style.display='block';
+    callActive=true;
+    callTimer=setInterval(()=>{
+      callSec++;
+      const m=String(Math.floor(callSec/60)).padStart(2,'0');
+      const s=String(callSec%60).padStart(2,'0');
+      document.getElementById('callDur').textContent=`${m}:${s}`;
+    },1000);
+  },2000);
+}
+function endCall(){
+  clearInterval(callTimer);
+  document.getElementById('callModal').classList.remove('open');
+  showToast(`📞 Call ended — ${String(Math.floor(callSec/60)).padStart(2,'0')}:${String(callSec%60).padStart(2,'0')}`);
+}
+
+// ─── PREMIUM PLANS ───────────────────────────────────────
+function switchTab(el,period){
+  document.querySelectorAll('.ptab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  renderPlans(period);
+}
+function renderPlans(period){
+  const c=document.getElementById('pScroll');
+  c.innerHTML='';
+  const notice=document.createElement('div');
+  notice.className='cpn';
+  notice.textContent='✅ Currently on Gold Plan · 22 days remaining';
+  c.appendChild(notice);
+  plans[period].forEach(plan=>{
+    const card=document.createElement('div');
+    card.className=`pcard${plan.feat?' feat':''}`;
+    const fHtml=plan.f.map(f=>`<div class="fr"><span class="fc">${f[0]}</span><span class="ft"><strong>${f[1]}</strong>${f[2]?' — '+f[2]:''}</span></div>`).join('');
+    const ctaCls=plan.n==='VIP Select'?'cg':plan.cur?'co':'cr2';
+    const ctaTxt=plan.cur?'Current Plan — Renew':plan.n==='VIP Select'?'Talk to Matchmaker':'Upgrade Now';
+    card.innerHTML=`
+      ${plan.feat?'<div class="pbadge">MOST POPULAR</div>':''}
+      <div class="pch">
+        <div><div class="pname">${plan.n}</div><div class="ptag">${plan.tag}</div></div>
+        <div class="ppw"><div class="ppr">${plan.pr}</div><div class="pmo">${plan.mo}</div>${plan.sv?`<div class="psv">${plan.sv}</div>`:''}</div>
+      </div>
+      <div class="pfeats">${fHtml}</div>
+      <button class="pcta ${ctaCls}" onclick="showToast('${plan.cur?'✅ Renewing Gold Plan!':'🎉 Upgrading to '+plan.n+'...'}')">${ctaTxt}</button>`;
+    c.appendChild(card);
+  });
+}
+</script>
+</body>
+</html>
